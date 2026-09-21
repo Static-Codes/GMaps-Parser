@@ -14,10 +14,6 @@ A proxy-less parser for Google Maps written in pure python.
 - 4GB+ DDR3 RAM or newer
 - The latest version of Google Chrome.
 
-# Usage
-
-#### Note: Before running put your searches into queries.txt, one per line.
-
 ## Windows Usage
 
 ```powershell
