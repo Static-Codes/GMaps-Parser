@@ -1,6 +1,12 @@
 import asyncio
 from pyppeteer.errors import NetworkError
-from utilities.BrowserScripts import (parseBusinessAddressScript, parseBusinessNameScript, parseBusinessPhoneScript, parseBusinessWebsiteScript)
+from utilities.BrowserScripts import (
+    parseBusinessAddressScript,
+    parseBusinessNameScript,
+    parseBusinessPhoneScript,
+    parseBusinessWebsiteScript,
+)
+
 
 class DataExtractor:
     @staticmethod
@@ -8,9 +14,9 @@ class DataExtractor:
         business_data = []
 
         try:
-            print(f"Parsing URL: {url}\n")
+            print(f"[INFO] Parsing URL: {url}\n")
 
-            await page.goto(url, {'waitUntil': 'domcontentloaded', 'timeout': 0})
+            await page.goto(url, {"waitUntil": "domcontentloaded", "timeout": 0})
 
             if not page.isClosed():
                 await asyncio.sleep(1.3)
@@ -20,13 +26,17 @@ class DataExtractor:
                 business_website_raw = await page.evaluate(parseBusinessWebsiteScript)
 
                 try:
-                    business_website = business_website_raw.replace("/url?q=", "").split('&opi=')[0]
+                    business_website = business_website_raw.replace(
+                        "/url?q=", ""
+                    ).split("&opi=")[0]
                 except:
                     business_website = "Not Found"
 
-                business_data.append([business_name, business_address, business_phone, business_website])
+                business_data.append(
+                    [business_name, business_address, business_phone, business_website]
+                )
             else:
-                print(f"Couldn't get data for URL: {url}\n")
+                print(f"[INFO] Couldn't get data for URL: {url}\n")
 
         except NetworkError:
             pass

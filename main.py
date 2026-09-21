@@ -1,8 +1,11 @@
-import ctypes
+import sys
+sys.dont_write_bytecode = True
+
 import warnings
 import time
 import asyncio
 
+from os import path, mkdir
 from utilities.QueryLoader import QueryLoader
 from utilities.BackupManager import BackupManager
 from utilities.BrowserManager import BrowserManager
@@ -14,8 +17,14 @@ from utilities.CSVWriter import CSVWriter
 from utilities.LinkLoader import LinkLoader
 
 # Part 1: Extracting Links Using Selenium
-ctypes.windll.kernel32.SetConsoleTitleW("Google Maps Parser")
 warnings.filterwarnings('ignore')
+
+dirs_to_check = ["data", "data/links", "data/results"]
+
+for dir_to_check in dirs_to_check:
+    if not path.exists(dir_to_check):
+        mkdir(dir_to_check)
+
 
 print("[INFO] Backing up last session..")
 BackupManager.backup_old_links_files()
@@ -51,7 +60,6 @@ else:
     exit()
 
 # Part 2: Parsing Extracted Links Using Pyppeteer
-ctypes.windll.kernel32.SetConsoleTitleW("Google Maps Link Parser")
 warnings.filterwarnings('ignore')
 
 async def main(urls):
@@ -63,7 +71,7 @@ async def main(urls):
         business_data.extend(data)
 
     await browser.close()
-    print("Finished")
+    print("[INFO] Finished extracting links..")
 
     CSVWriter.write_to_csv(business_data)
 
@@ -71,13 +79,13 @@ links_file = "google_maps_links.txt"
 urls = LinkLoader.load_links(links_file)
 
 if not urls:
-    print("No URLs loaded, exiting...")
+    print("[INFO] No URLs loaded, exiting...")
     exit()
 
-print(f'{len(urls)} URLs loaded!')
-print(f'Estimated parsing time: {len(urls)*2} seconds.')
+print(f'[INFO] {len(urls)} URLs loaded!')
+print(f'[INFO] Estimated parsing time: {len(urls)*2} seconds.')
 
 try:
     asyncio.get_event_loop().run_until_complete(main(urls))
 except Exception as e:
-    print(f"Error during processing: {e}")
+    print(f"[INFO] Error during processing: {e}")

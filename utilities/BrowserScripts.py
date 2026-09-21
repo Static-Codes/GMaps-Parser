@@ -17,8 +17,6 @@ parseBusinessLinksScript = """function parseMapsForBusinessLinks() {
 }
 
     
-
-// Call the function when you're ready to execute its functionality
 return parseMapsForBusinessLinks();"""
 
 parseBusinessNameScript = """function getBusinessName(){
