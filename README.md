@@ -4,9 +4,9 @@ A proxyless parser for Google Maps written in pure python.
 
 ## Requirements 
 
-Python 3.9+ with Python and PIP in your system PATH.
-4GB+ DDR3 RAM or newer
-The latest version of Google Chrome.
+- Python 3.9+ with Python and PIP in your system PATH.
+- 4GB+ DDR3 RAM or newer
+- The latest version of Google Chrome.
 
 # Usage
 
